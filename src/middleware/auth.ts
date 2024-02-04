@@ -5,13 +5,14 @@ import { AUTH_USER_TOKEN_MISSING, AUTH_USER_TOKEN_UNAUTHORIZED } from '../config
 import JwtServiceImpl from '../services/impl/jwt';
 
 export const isAuthorized = async function (req: Request, res: Response, next: NextFunction) {
-  console.log('isAuthorized');
-  !req.headers.authorization && res.status(STATUS_UNAUTHORIZED).json(new HttpResult(AUTH_USER_TOKEN_MISSING, {}));
+  if (!req.headers.authorization) {
+    return res.status(STATUS_UNAUTHORIZED).json(new HttpResult(AUTH_USER_TOKEN_MISSING, {}));
+  }
   const userId: string | undefined = await new JwtServiceImpl().validate(req.headers.authorization);
   if (userId) {
     res.locals.userId = userId;
     next();
   } else {
-    res.status(STATUS_UNAUTHORIZED).send(new HttpResult(AUTH_USER_TOKEN_UNAUTHORIZED, {}));
+    return res.status(STATUS_UNAUTHORIZED).send(new HttpResult(AUTH_USER_TOKEN_UNAUTHORIZED, {}));
   }
 };

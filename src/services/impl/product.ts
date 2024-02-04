@@ -1,20 +1,33 @@
-import { Product } from '../../types/product';
+import { Product, ProductUpdate } from '../../types/model/product';
 import ProductService from '../product';
-import { ListTablesCommand, DynamoDBClient } from '@aws-sdk/client-dynamodb';
-const client = new DynamoDBClient({});
 
 class ProductServiceImpl implements ProductService {
-  createProduct(product: Product): Promise<Product> {
-    throw new Error('Method not implemented.');
+  createProduct(product: Product): Product {
+    return product;
   }
-  getProduct(sn: string): Promise<Product> {
-    throw new Error('Method not implemented.');
+  getProduct(sn: string): Product {
+    return {
+      name: 'teste',
+      sn: sn,
+      image_url: 'teste',
+      value: 12.42,
+    };
   }
-  listProduct(): Promise<Product[]> {
-    throw new Error('Method not implemented.');
+  listProduct(): Product[] {
+    return [
+      {
+        name: 'teste',
+        sn: '312321',
+        image_url: 'teste',
+        value: 12.42,
+      },
+    ];
   }
-  updateProduct(product: Product): Promise<Product> {
-    throw new Error('Method not implemented.');
+  updateProduct(sn: string, product: ProductUpdate): Product {
+    return {
+      ...product,
+      sn: sn,
+    };
   }
 }
 

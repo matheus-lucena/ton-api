@@ -42,10 +42,10 @@ class CognitoServiceImpl implements AuthService {
     return this.client.send(command);
   };
 
-  getUser = async (email: string) => {
+  getUser = async (username: string) => {
     const params: AdminGetUserCommandInput = {
       UserPoolId: COGNITO_USER_POOL_ID,
-      Username: email,
+      Username: username,
     };
     const command = new AdminGetUserCommand(params);
     return await this.client

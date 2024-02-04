@@ -9,4 +9,4 @@ export const AUTH_USER_PASSWORD_NOT_MEET_REQUIREMENTS = 'senha nao atende padroe
 export const AUTH_USER_FAILURE_CREATE = 'falha ao criar usuario';
 
 export const GENERIC_ERROR = 'erro generico';
-export const GENERIC_PATH_NOT_FOUND = 'path not found';
+export const GENERIC_SUCCESS = 'ok';

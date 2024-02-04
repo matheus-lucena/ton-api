@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 
 import { STATUS_BAD_REQUEST, STATUS_CONFLICT, STATUS_INTERNAL_SERVER_ERROR, STATUS_NOT_FOUND, STATUS_UNAUTHORIZED } from '../config/http';
 import { HttpResult } from '../utils/http';
@@ -13,45 +13,47 @@ import {
 } from '../config/messages';
 import CognitoService from '../services/impl/cognito';
 import { AuthenticationResultType } from '@aws-sdk/client-cognito-identity-provider';
+import { UserRequestBody } from '../types/request/auth';
+import { TypedRequestBody } from '../types/request';
+import { getUserId } from '../utils/user';
 
 const PASSWORD_REGEX = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
 
-const TEST_EMAIL = 'teste10@teste.com';
-const TEST_PASSWORD = 'teste2@dD';
-
-export async function register(req: Request, res: Response) {
+export async function register(req: TypedRequestBody<UserRequestBody>, res: Response) {
+  const { email, password } = req.body;
   const cognitoService = new CognitoService();
-  const user = await cognitoService.getUser(TEST_EMAIL);
+  const user = await cognitoService.getUser(email);
   if (user) {
     return res.status(STATUS_CONFLICT).json(new HttpResult(AUTH_USER_EXIST, {}));
   }
-  if (!PASSWORD_REGEX.test(TEST_PASSWORD)) {
+  if (!PASSWORD_REGEX.test(password)) {
     return res.status(STATUS_BAD_REQUEST).json(new HttpResult(AUTH_USER_PASSWORD_NOT_MEET_REQUIREMENTS, {}));
   }
 
   let create_result;
 
   try {
-    create_result = await cognitoService.createUser(TEST_EMAIL);
+    create_result = await cognitoService.createUser(email);
   } catch (e) {
     return res.status(STATUS_INTERNAL_SERVER_ERROR).json(new HttpResult(AUTH_USER_FAILURE_CREATE, {}));
   }
 
   if (create_result.User && create_result.User.Username) {
-    await cognitoService.setUserPassword(create_result.User.Username, TEST_PASSWORD);
+    await cognitoService.setUserPassword(create_result.User.Username, req.body.password);
     return res.json(new HttpResult(AUTH_USER_CREATED_SUCCESSFULL, {}));
   }
 }
 
-export async function login(req: Request, res: Response) {
+export async function login(req: TypedRequestBody<UserRequestBody>, res: Response) {
+  const { email, password } = req.body;
   const cognitoService = new CognitoService();
-  const user = await cognitoService.getUser(TEST_EMAIL);
+  const user = await cognitoService.getUser(req.body.email);
   if (!user) {
     return res.status(STATUS_NOT_FOUND).json({
       message: AUTH_USER_NOT_EXIST,
     });
   }
-  const result: AuthenticationResultType | undefined = await cognitoService.login(TEST_EMAIL, TEST_PASSWORD);
+  const result: AuthenticationResultType | undefined = await cognitoService.login(email, password);
 
   if (result) {
     return res.json({
@@ -66,6 +68,6 @@ export async function login(req: Request, res: Response) {
 
 export async function getInfo(req: Request, res: Response) {
   const cognitoService = new CognitoService();
-  const user = await cognitoService.getUser(TEST_EMAIL);
+  const user = await cognitoService.getUser(getUserId(res));
   return res.json(new HttpResult(AUTH_USER_INFO, user));
 }

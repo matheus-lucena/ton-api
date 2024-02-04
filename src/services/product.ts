@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 
-import { Product } from '../types/product';
+import { Product, ProductUpdate } from '../types/model/product';
 
 interface ProductService {
-  createProduct(product: Product): Promise<Product>;
-  getProduct(sn: string): Promise<Product>;
-  listProduct(): Promise<Product[]>;
-  updateProduct(product: Product): Promise<Product>;
+  createProduct(product: Product): Product;
+  getProduct(sn: string): Product;
+  listProduct(): Product[];
+  updateProduct(sn: string, product: ProductUpdate): Product;
 }
 
 export default ProductService;

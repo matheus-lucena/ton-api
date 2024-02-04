@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { STATUS_INTERNAL_SERVER_ERROR, STATUS_NOT_FOUND } from '../config/http';
-import { GENERIC_ERROR, GENERIC_PATH_NOT_FOUND } from '../config/messages';
+import { STATUS_INTERNAL_SERVER_ERROR } from '../config/http';
+import { GENERIC_ERROR } from '../config/messages';
 import { HttpResult } from '../utils/http';
 
 // Error object used in error handling middleware function
@@ -33,9 +33,4 @@ export const errorLogger = async function (err: Error, req: Request, res: Respon
 export const requestLogger = (req: Request, res: Response, next: NextFunction) => {
   console.log(`${req.method} url:: ${req.url}`);
   next();
-};
-
-// eslint-disable-next-line no-unused-vars
-export const invalidPathHandler = (req: Request, res: Response, next: NextFunction) => {
-  res.status(STATUS_NOT_FOUND).json(new HttpResult(GENERIC_PATH_NOT_FOUND, {}));
 };

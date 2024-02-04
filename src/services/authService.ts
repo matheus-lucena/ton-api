@@ -10,7 +10,7 @@ import {
 interface AuthService {
   createUser(email: string): Promise<AdminCreateUserCommandOutput>;
   setUserPassword(username: string, password: string): Promise<AdminSetUserPasswordCommandOutput>;
-  getUser(email: string): Promise<AdminGetUserCommandOutput | undefined>;
+  getUser(username: string): Promise<AdminGetUserCommandOutput | undefined>;
   login(username: string, password: string): Promise<AuthenticationResultType | undefined>;
 }
 
