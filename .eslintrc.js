@@ -38,7 +38,12 @@ module.exports = {
             "jest/no-focused-tests": "error",
             "jest/no-identical-title": "error",
             "jest/prefer-to-have-length": "warn",
-            "jest/valid-expect": "error"
+            "jest/valid-expect": "error",
+            'no-var': 'error',
+            indent: ['error', 2, { SwitchCase: 1 }],
+            'no-multiple-empty-lines': 'error',
+            'prefer-const': 'error',
+            "prettier/prettier": ["error", { "singleQuote": true }]
           }
         }
     ],

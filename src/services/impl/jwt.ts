@@ -16,8 +16,7 @@ class JwtServiceImpl implements JwtService {
     const bearerToken = authorization?.split('Bearer ')[1];
     if (bearerToken) {
       try {
-        const payload = await this.client.verify(bearerToken);
-        return payload.username;
+        return await this.client.verify(bearerToken).username;
       } catch {
         return undefined;
       }
