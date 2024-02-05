@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express';
 import { register, getInfo, list, update } from '../controllers/products';
 import { wrapFunction } from '../utils/wrapError';
-import { ProducSn } from '../types/request/products';
+import { ProducSn, ProductRequest } from '../types/request/products';
+import { TypedRequestBody } from '../types/request';
 
 export const router = express.Router();
 
@@ -15,10 +16,10 @@ router.get(
 );
 router.post(
   '/',
-  wrapFunction(async (req: Request, res: Response) => register(req, res)),
+  wrapFunction(async (req: TypedRequestBody<ProductRequest>, res: Response) => register(req, res)),
 );
 
 router.put(
-  '/:sn',
-  wrapFunction(async (req: Request<ProducSn>, res: Response) => update(req, res)),
+  '/',
+  wrapFunction(async (req: TypedRequestBody<ProductRequest>, res: Response) => update(req, res)),
 );

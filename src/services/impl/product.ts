@@ -1,5 +1,5 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { Product, ProductUpdate } from '../../types/model/product';
+import { Product } from '../../types/model/product';
 import ProductService from '../product';
 import { DYNAMODB_PRODUCTS_ACTIVE_GSI, DYNAMODB_PRODUCTS_TABLE } from '../../config/app';
 import { getDynamodbClient } from '../../utils/dynamodb';
@@ -16,7 +16,10 @@ class ProductServiceImpl implements ProductService {
   async createProduct(product: Product): Promise<Product | undefined> {
     const command = new PutCommand({
       TableName: DYNAMODB_PRODUCTS_TABLE,
-      Item: product,
+      Item: {
+        ...product,
+        active: String(product.sn),
+      },
     });
     await this.client.send(command);
     return await this.getProduct(product.sn);
@@ -36,6 +39,10 @@ class ProductServiceImpl implements ProductService {
     const command = new QueryCommand({
       TableName: DYNAMODB_PRODUCTS_TABLE,
       IndexName: DYNAMODB_PRODUCTS_ACTIVE_GSI,
+      KeyConditionExpression: `active = :value`,
+      ExpressionAttributeValues: {
+        ':value': 'true',
+      },
     });
     return (await this.client.send(command)).Items as Product[];
 
@@ -72,12 +79,13 @@ class ProductServiceImpl implements ProductService {
       },
     ];*/
   }
-  async updateProduct(sn: string, product: ProductUpdate): Promise<Product | undefined> {
+  async updateProduct(product: Product): Promise<Product | undefined> {
+    const { sn } = product;
     const currentItem = await this.getProduct(sn);
     const newItem = {
       ...currentItem,
       ...product,
-      sn: sn,
+      active: String(product.active),
     };
     const command = new PutCommand({
       TableName: DYNAMODB_PRODUCTS_TABLE,

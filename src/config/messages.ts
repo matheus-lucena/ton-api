@@ -12,3 +12,6 @@ export const GENERIC_ERROR = 'erro generico';
 export const GENERIC_SUCCESS = 'ok';
 
 export const PRODUCT_EXIST = 'produto ja existe';
+export const PRODUCT_NOT_EXIST = 'produto nao existe';
+
+export const GENERIC_INVALID_FIELDS = 'input incorreto';

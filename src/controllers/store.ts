@@ -19,7 +19,7 @@ export async function buy(req: Request, res: Response) {
         image_url: 'https://',
         sn: '19238192',
         value: 23.0,
-        status: true,
+        active: true,
       },
     ],
     value: 46.0,

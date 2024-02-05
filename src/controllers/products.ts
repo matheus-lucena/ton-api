@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
 import ProductServiceImpl from '../services/impl/product';
 import { HttpResult } from '../utils/http';
-import { GENERIC_SUCCESS, PRODUCT_EXIST } from '../config/messages';
-import { ProducSn } from '../types/request/products';
-import { Product, ProductUpdate } from '../types/model/product';
-import { STATUS_CONFLICT } from '../config/http';
+import { GENERIC_INVALID_FIELDS, GENERIC_SUCCESS, PRODUCT_EXIST, PRODUCT_NOT_EXIST } from '../config/messages';
+import { ProducSn, ProductRequest, ProductRequestRule } from '../types/request/products';
+import { Product } from '../types/model/product';
+import { STATUS_BAD_REQUEST, STATUS_CONFLICT, STATUS_NOT_FOUND } from '../config/http';
+import { TypedRequestBody } from '../types/request';
+import { make } from 'simple-body-validator';
 
 export async function list(req: Request, res: Response) {
   const productService = new ProductServiceImpl();
@@ -13,18 +15,21 @@ export async function list(req: Request, res: Response) {
 
 export async function getInfo(req: Request<ProducSn>, res: Response) {
   const productService = new ProductServiceImpl();
-  res.json(new HttpResult(GENERIC_SUCCESS, await productService.getProduct(req.params.sn)));
+  const product = await productService.getProduct(req.params.sn);
+  if (product) {
+    res.json(new HttpResult(GENERIC_SUCCESS, product));
+  } else {
+    res.status(STATUS_NOT_FOUND).json(new HttpResult(PRODUCT_NOT_EXIST, undefined));
+  }
 }
 
-export async function register(req: Request, res: Response) {
+export async function register(req: TypedRequestBody<ProductRequest>, res: Response) {
+  const validator = make(req.body, ProductRequestRule);
+  if (!validator.validate()) {
+    return res.status(STATUS_BAD_REQUEST).json(new HttpResult(GENERIC_INVALID_FIELDS, undefined, validator.errors().all()));
+  }
   const productService = new ProductServiceImpl();
-  const product: Product = {
-    name: 'teste',
-    sn: 'teste',
-    image_url: 'teste',
-    value: 50,
-    status: true,
-  };
+  const product: Product = req.body;
   const existProduct = await productService.getProduct(product.sn);
   if (existProduct) {
     res.status(STATUS_CONFLICT).json(new HttpResult(PRODUCT_EXIST, existProduct));
@@ -33,13 +38,17 @@ export async function register(req: Request, res: Response) {
   }
 }
 
-export async function update(req: Request<ProducSn>, res: Response) {
+export async function update(req: TypedRequestBody<ProductRequest>, res: Response) {
+  const validator = make(req.body, ProductRequestRule);
+  if (!validator.validate()) {
+    return res.status(STATUS_BAD_REQUEST).json(new HttpResult(GENERIC_INVALID_FIELDS, undefined, validator.errors().all()));
+  }
   const productService = new ProductServiceImpl();
-  const product: ProductUpdate = {
-    name: 'teste',
-    image_url: 'teste',
-    value: 100,
-    status: true,
-  };
-  res.json(new HttpResult(GENERIC_SUCCESS, await productService.updateProduct(req.params.sn, product)));
+  const product: Product = req.body;
+  const existProduct = await productService.getProduct(req.body.sn);
+  if (existProduct) {
+    res.json(new HttpResult(GENERIC_SUCCESS, await productService.updateProduct(product)));
+  } else {
+    res.status(STATUS_NOT_FOUND).json(new HttpResult(PRODUCT_NOT_EXIST, undefined));
+  }
 }

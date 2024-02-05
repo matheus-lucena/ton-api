@@ -4,7 +4,7 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 const marshallOptions = {
   convertEmptyValues: false, // false, by default.
   removeUndefinedValues: false, // false, by default.
-  convertClassInstanceToMap: false, // false, by default.
+  convertClassInstanceToMap: false, // false, by default
 };
 
 const unmarshallOptions = {
