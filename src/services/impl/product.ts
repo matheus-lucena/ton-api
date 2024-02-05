@@ -18,7 +18,7 @@ class ProductServiceImpl implements ProductService {
       TableName: DYNAMODB_PRODUCTS_TABLE,
       Item: {
         ...product,
-        active: String(product.sn),
+        active: String(product.active),
       },
     });
     await this.client.send(command);
