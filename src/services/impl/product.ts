@@ -45,40 +45,8 @@ class ProductServiceImpl implements ProductService {
       },
     });
     return (await this.client.send(command)).Items as Product[];
-
-    /*return [
-      {
-        name: 'T4',
-        sn: '90182390189038',
-        image_url: 'https://res.cloudinary.com/dunz5zfpt/fl_progressive/f_auto,c_limit,w_48,q_auto/site-ton/maquininhas/new-t3-smart-1',
-        value: 80,
-      },
-      {
-        name: 'T3',
-        sn: '178293718978',
-        image_url: 'https://res.cloudinary.com/dunz5zfpt/fl_progressive/f_auto,c_limit,w_48,q_auto/site-ton/maquininhas/new-t3-1',
-        value: 80,
-      },
-      {
-        name: 'T2',
-        sn: '218371827389',
-        image_url: 'https://res.cloudinary.com/dunz5zfpt/fl_progressive/f_auto,c_limit,w_48,q_auto/site-ton/maquininhas/new-t1-chip-1',
-        value: 60,
-      },
-      {
-        name: 'T1',
-        sn: '12378123812',
-        image_url: 'https://res.cloudinary.com/dunz5zfpt/fl_progressive/f_auto,c_limit,w_48,q_100/site-ton/maquininhas/new-t1-1',
-        value: 42.42,
-      },
-      {
-        name: 'T6',
-        sn: '938193812',
-        image_url: 'https://res.cloudinary.com/dunz5zfpt/fl_progressive/f_auto,c_limit,w_48,q_100/site-ton/maquininhas/new-t1-1',
-        value: 42.42,
-      },
-    ];*/
   }
+
   async updateProduct(product: Product): Promise<Product | undefined> {
     const { sn } = product;
     const currentItem = await this.getProduct(sn);
