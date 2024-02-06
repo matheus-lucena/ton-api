@@ -25,5 +25,4 @@ locals {
 locals {
   account_id = data.aws_caller_identity.current.account_id
   region     = "us-east-1"
-  image_tag  = "${local.account_id}.dkr.ecr.${local.region}.amazonaws.com/${var.name}:latest"
 }
