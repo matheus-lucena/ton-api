@@ -12,5 +12,5 @@ resource "aws_lambda_function" "main" {
     variables = local.environment
   }
 
-  depends_on = [docker_image.lambda]
+  depends_on = [docker_image.lambda, null_resource.docker_push]
 }
