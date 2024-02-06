@@ -1,4 +1,4 @@
-resource "aws_lambda_function" "profile_faker_function" {
+resource "aws_lambda_function" "main" {
   function_name = var.name
   timeout       = 15 # seconds
   image_uri     = aws_ecr_repository.lambda.repository_url
@@ -11,4 +11,6 @@ resource "aws_lambda_function" "profile_faker_function" {
   environment {
     variables = local.environment
   }
+
+  depends_on = [docker_image.lambda]
 }
