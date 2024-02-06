@@ -1,7 +1,7 @@
 resource "aws_lambda_function" "main" {
   function_name = var.name
   timeout       = 15 # seconds
-  image_uri     = aws_ecr_repository.lambda.repository_url
+  image_uri     = "${aws_ecr_repository.lambda.repository_url}:latest"
   package_type  = "Image"
 
   role = aws_iam_role.lambda.arn
