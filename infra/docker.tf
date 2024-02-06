@@ -21,5 +21,6 @@ resource "null_resource" "docker_push" {
 
 	  depends_on = [
 	    aws_ecr_repository.lambda,
+        docker_image.lambda
 	  ]
 }
