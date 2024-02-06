@@ -19,3 +19,11 @@ locals {
     DYNAMODB_SHOP_TABLE_CLIENT_GSI = local.table_shop_gsi_name
   }
 }
+
+
+## docker
+locals {
+  account_id = data.aws_caller_identity.current.account_id
+  region     = "us-east-1"
+  image_tag  = "${local.account_id}.dkr.ecr.${local.region}.amazonaws.com:latest"
+}
