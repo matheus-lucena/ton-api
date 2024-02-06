@@ -1,10 +1,10 @@
 import { describe, it, expect } from '@jest/globals';
-import AuthMiddleware from '../src/middleware/auth';
+import AuthMiddleware from '../../src/middleware/auth';
 import httpMocks from 'node-mocks-http';
 import sinon from 'sinon';
-import JwtServiceImpl from '../src/services/impl/jwt';
+import JwtServiceImpl from '../../src/services/impl/jwt';
 import { when } from 'jest-when';
-import { getUserId } from '../src/utils/user';
+import { getUserId } from '../../src/utils/user';
 
 jest.mock('aws-jwt-verify', () => {
   return {

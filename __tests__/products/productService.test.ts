@@ -2,9 +2,9 @@ import { describe, it, expect, beforeEach } from '@jest/globals';
 
 import { mockClient } from 'aws-sdk-client-mock';
 import { DynamoDBDocumentClient, GetCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
-import ProductServiceImpl from '../src/services/impl/product';
-import { Product } from '../src/types/model/product';
-import { LIST_MOCK_PRODUCT, MOCK_PRODUCT, MOCK_UPDATE_PRODUCT } from './mocks/product';
+import ProductServiceImpl from '../../src/services/impl/product';
+import { Product } from '../../src/types/model/product';
+import { LIST_MOCK_PRODUCT, MOCK_PRODUCT, MOCK_UPDATE_PRODUCT } from '../mocks/product';
 
 const ddbMock = mockClient(DynamoDBDocumentClient);
 const productServiceImpl = new ProductServiceImpl();

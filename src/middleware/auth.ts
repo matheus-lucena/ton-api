@@ -7,8 +7,8 @@ import JwtServiceImpl from '../services/impl/jwt';
 class AuthMiddleware {
   jwtServiceImpl;
 
-  constructor(jwtServiceImpl?: JwtServiceImpl) {
-    this.jwtServiceImpl = jwtServiceImpl ? jwtServiceImpl : new JwtServiceImpl();
+  constructor(jwtServiceImpl: JwtServiceImpl) {
+    this.jwtServiceImpl = jwtServiceImpl;
   }
 
   isAuthorized = async (req: Request, res: Response, next: NextFunction) => {

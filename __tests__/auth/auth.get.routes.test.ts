@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 import { agent } from 'supertest';
-import { app } from '../src';
+import { app } from '../../src';
 import { Request, NextFunction } from 'express';
-import { AuthenticationResult, CreateUser, GetUser, UserPassword } from './mocks/auth';
+import { AuthenticationResult, CreateUser, GetUser, UserPassword } from '../mocks/auth';
 
 const appAgent = agent(app);
 
@@ -11,7 +12,7 @@ jest.mock('aws-jwt-verify', () => {
   };
 });
 
-jest.mock('../src/middleware/auth', () => {
+jest.mock('../../src/middleware/auth', () => {
   return jest.fn().mockImplementation(() => ({
     isAuthorized: jest.fn((req: Request, res, Response, next: NextFunction) => {
       res.locals.userId = 'testeId';
@@ -20,7 +21,7 @@ jest.mock('../src/middleware/auth', () => {
   }));
 });
 
-jest.mock('../src/services/impl/cognito', () => {
+jest.mock('../../src/services/impl/cognito', () => {
   return jest.fn().mockImplementation(() => ({
     createUser: jest.fn((email: string) => CreateUser),
     login: jest.fn((email: string, password: string) => AuthenticationResult),
@@ -44,6 +45,7 @@ describe('/auth', function () {
       })
       .end(done);
   });
+
   it('loginUser', done => {
     appAgent
       .post('/auth/login')
@@ -59,21 +61,18 @@ describe('/auth', function () {
       })
       .end(done);
   });
-  /*it('registerUser', done => {
-        appAgent
-          .post('/auth')
-          .set({
-            Accept: 'application/json',
-          })
-          .send({
-            email: 'teste2@teste.com',
-            password: 'teste@123dD'
-          })
-          .expect(200)
-          .expect((res) => {
-            console.log(res.body)
-            console.log(AuthenticationResult)
-            expect(res.body.data).toEqual(CreateUser)
-        })}
-      );*/
+
+  it('registerConflictUser', done => {
+    appAgent
+      .post('/auth')
+      .set({
+        Accept: 'application/json',
+      })
+      .send({
+        email: 'teste2@teste.com',
+        password: 'teste@123dD',
+      })
+      .end(done)
+      .expect(209);
+  });
 });

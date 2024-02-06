@@ -48,14 +48,7 @@ class CognitoServiceImpl implements AuthService {
       Username: username,
     };
     const command = new AdminGetUserCommand(params);
-    return await this.client
-      .send(command)
-      .then(response => {
-        return response;
-      })
-      .catch(() => {
-        return undefined;
-      });
+    return this.client.send(command);
   };
 
   login = async (username: string, password: string) => {
@@ -71,14 +64,7 @@ class CognitoServiceImpl implements AuthService {
       AuthParameters: { USERNAME: username, PASSWORD: password, SECRET_HASH: secret_hash },
     });
 
-    return await this.client
-      .send(command)
-      .then(data => {
-        return data.AuthenticationResult;
-      })
-      .catch(() => {
-        return undefined;
-      });
+    return (await this.client.send(command)).AuthenticationResult;
   };
 }
 

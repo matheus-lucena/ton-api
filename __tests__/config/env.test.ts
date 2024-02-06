@@ -13,7 +13,7 @@ import {
 
 describe('config.app.env', () => {
   it('test env', async () => {
-    expect(APP_PORT).toEqual('5000');
+    expect(APP_PORT).toEqual('5005');
     expect(AWS_REGION).toEqual('region');
     expect(COGNITO_CLIENT_ID).toEqual('client_id');
     expect(COGNITO_USER_POOL_ID).toEqual('user_pool');

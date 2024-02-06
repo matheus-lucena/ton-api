@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node-dev ./src/index.ts",
+    "start": "ts-node-dev ./src/server.ts",
     "lint": "eslint src/**/*.ts __tests__/**/*.ts --fix",
     "test": "set NODE_ENV=test && jest --detectOpenHandles --forceExit",
     "test-coverage": "jest --coverage --collectCoverageFrom='src/**/*.{ts,tsx}'"
