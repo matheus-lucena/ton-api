@@ -16,7 +16,7 @@ resource "null_resource" "docker_push" {
 	  }
 	
 	  triggers = {
-	    "run_at" = plantimestamp()
+	    "run_at" = timestamp()
 	  }
 
 	  depends_on = [
