@@ -4,7 +4,7 @@ import { router as authRoute } from './routes/auth';
 import { router as productsRoute } from './routes/products';
 import { router as storeRoute } from './routes/store';
 import { errorResponder, errorLogger, requestLogger } from './middleware/error';
-import { isAuthorized } from './middleware/auth';
+import AuthMiddleware from './middleware/auth';
 import bodyParser from 'body-parser';
 
 const app = express();
@@ -18,9 +18,10 @@ app.use(
   bodyParser.json(),
 );
 
+const authMiddleware = new AuthMiddleware();
 app.use('/auth/', authRoute);
-app.use('/products', isAuthorized, productsRoute);
-app.use('/store', isAuthorized, storeRoute);
+app.use('/products', authMiddleware.isAuthorized, productsRoute);
+app.use('/store', authMiddleware.isAuthorized, storeRoute);
 
 app.use(errorLogger);
 app.use(errorResponder);
@@ -28,3 +29,5 @@ app.use(errorResponder);
 app.listen(APP_PORT, () => {
   console.log(`Example app listening on port ${APP_PORT}`);
 });
+
+export { app };

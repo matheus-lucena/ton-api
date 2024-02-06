@@ -3,10 +3,11 @@ import { login, getInfo, register } from '../controllers/auth';
 import { wrapFunction } from '../utils/wrapError';
 import { UserRequestBody } from '../types/request/auth';
 import { TypedRequestBody } from '../types/request';
-import { isAuthorized } from '../middleware/auth';
+import AuthMiddleware from '../middleware/auth';
 
 export const router = express.Router();
 
+const { isAuthorized } = new AuthMiddleware();
 router.get(
   '/',
   isAuthorized,

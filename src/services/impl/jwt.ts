@@ -4,7 +4,7 @@ import { COGNITO_CLIENT_ID, COGNITO_USER_POOL_ID } from '../../config/app';
 import { CognitoJwtVerifier } from 'aws-jwt-verify';
 
 class JwtServiceImpl implements JwtService {
-  client: any;
+  client;
   constructor() {
     this.client = CognitoJwtVerifier.create({
       tokenUse: 'access',
@@ -16,7 +16,7 @@ class JwtServiceImpl implements JwtService {
     const bearerToken = authorization?.split('Bearer ')[1];
     if (bearerToken) {
       try {
-        return await this.client.verify(bearerToken).username;
+        return (await this.client.verify(bearerToken)).username;
       } catch {
         return undefined;
       }

@@ -4,15 +4,25 @@ import { STATUS_UNAUTHORIZED } from '../config/http';
 import { AUTH_USER_TOKEN_MISSING, AUTH_USER_TOKEN_UNAUTHORIZED } from '../config/messages';
 import JwtServiceImpl from '../services/impl/jwt';
 
-export const isAuthorized = async function (req: Request, res: Response, next: NextFunction) {
-  if (!req.headers.authorization) {
-    return res.status(STATUS_UNAUTHORIZED).json(new HttpResult(AUTH_USER_TOKEN_MISSING, {}));
+class AuthMiddleware {
+  jwtServiceImpl;
+
+  constructor(jwtServiceImpl?: JwtServiceImpl) {
+    this.jwtServiceImpl = jwtServiceImpl ? jwtServiceImpl : new JwtServiceImpl();
   }
-  const userId: string | undefined = await new JwtServiceImpl().validate(req.headers.authorization);
-  if (userId) {
-    res.locals.userId = userId;
-    next();
-  } else {
-    return res.status(STATUS_UNAUTHORIZED).send(new HttpResult(AUTH_USER_TOKEN_UNAUTHORIZED, {}));
-  }
-};
+
+  isAuthorized = async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.headers.authorization) {
+      return res.status(STATUS_UNAUTHORIZED).json(new HttpResult(AUTH_USER_TOKEN_MISSING, {}));
+    }
+    const userId: string | undefined = await this.jwtServiceImpl.validate(req.headers.authorization);
+    if (userId) {
+      res.locals.userId = userId;
+      next();
+    } else {
+      return res.status(STATUS_UNAUTHORIZED).send(new HttpResult(AUTH_USER_TOKEN_UNAUTHORIZED, {}));
+    }
+  };
+}
+
+export default AuthMiddleware;
