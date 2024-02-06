@@ -3,10 +3,18 @@ resource "aws_apigatewayv2_api" "main" {
   protocol_type = "HTTP"
 }
 
-resource "aws_apigatewayv2_integration" "main" {
-  api_id           = aws_apigatewayv2_api.main.id
-  integration_type = "HTTP_PROXY"
+resource "aws_apigatewayv2_integration" "default" {
+  api_id                 = aws_apigatewayv2_api.default.id
+  integration_type       = "AWS_PROXY"
+  connection_type        = "INTERNET"
+  integration_method     = "POST"
+  integration_uri        = aws_lambda_function.main.invoke_arn
+  timeout_milliseconds   = 30000
+}
 
-  integration_method = "ANY"
-  integration_uri    = aws_lambda_function.main.invoke_arn
+resource "aws_apigatewayv2_route" "main" {
+  api_id             = aws_apigatewayv2_api.main.id
+  route_key          = "ANY /{proxy+}"
+  authorization_type = "NONE"
+  target             = "integrations/${aws_apigatewayv2_integration.default.id}"
 }
