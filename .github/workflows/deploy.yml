@@ -1,0 +1,66 @@
+name: "Terraform Infrastructure Change Management Pipeline with GitHub Actions"
+ 
+on:
+  push:
+    branches:
+      - main
+
+env:
+  TF_LOG: INFO
+  AWS_REGION: us-east-1
+  ROLE_SESSION_NAME: deploy-api
+  ROLE_ARN: arn:aws:iam::517171444774:role/github-deploy-stone-api
+  TERRAFORM_DESTROY: false
+
+jobs:
+  terraform:
+    name: "Terraform Infrastructure Change Management"
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./infra
+    steps:
+      - name: Checkout the repository to the runner
+        uses: actions/checkout@v4
+  
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ env.ROLE_ARN }}
+          role-session-name: ${{ env.ROLE_SESSION_NAME }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform with specified version on the runner
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.3.0
+          
+      - name: Terraform init
+        id: init
+        run: terraform init
+        working-directory: ${{ env.working-directory }}
+  
+      - name: Terraform format
+        id: fmt
+        run: terraform fmt # -check
+        working-directory: ${{ env.working-directory }}
+      
+      - name: Terraform validate
+        id: validate
+        run: terraform validate
+        working-directory: ${{ env.working-directory }}
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      - name: Terraform Apply
+        id: apply
+        if: ${{ env.TERRAFORM_DESTROY == 'false' }}
+        run: terraform apply -auto-approve -input=false
+        working-directory: ${{ env.working-directory }}
+
+      - name: Terraform Apply Destroy
+        id: apply-destroy
+        if: ${{ env.TERRAFORM_DESTROY == 'true' }}
+        run: terraform destroy -auto-approve -input=false
+        working-directory: ${{ env.working-directory }}

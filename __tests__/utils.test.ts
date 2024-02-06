@@ -39,6 +39,7 @@ describe('Utils', () => {
     ddbMock.on(QueryCommand).resolves({
       Items: LIST_MOCK_PRODUCT,
     });
+    // eslint-disable-next-line no-unused-vars
     await wrapFunction(async (_req: Request, _res: Response, _next: NextFunction) => list(request, response));
   });
 });

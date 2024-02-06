@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import { LIST_MOCK_PRODUCT, MOCK_PRODUCT } from '../mocks/product';
 
 import { agent } from 'supertest';

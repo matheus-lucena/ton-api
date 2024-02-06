@@ -5,7 +5,7 @@ import { agent } from 'supertest';
 import { app } from '../../src';
 import { Request, NextFunction } from 'express';
 import { Product } from '../../src/types/model/product';
-import { STATUS_BAD_REQUEST, STATUS_CONFLICT, STATUS_NOT_FOUND } from '../../src/config/http';
+import { STATUS_CONFLICT } from '../../src/config/http';
 
 const appAgent = agent(app);
 

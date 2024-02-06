@@ -1,6 +1,8 @@
 import { describe, it } from '@jest/globals';
 import { agent } from 'supertest';
-import listenApp, { healthcheck } from '../src/server';
+import listenApp from '../src/local';
+import { healthcheck } from '../src';
+
 import httpMocks from 'node-mocks-http';
 
 const appAgent = agent(listenApp);
