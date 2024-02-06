@@ -9,4 +9,4 @@ RUN cd ${LAMBDA_TASK_ROOT}/ && npm install --omit=dev --non-interactive
 COPY ./src/ ${LAMBDA_TASK_ROOT}
 
 # Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
-CMD [ "src.aws.handler" ]
+CMD [ "aws.handler" ]
