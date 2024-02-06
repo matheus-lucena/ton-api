@@ -4,7 +4,7 @@ resource "aws_apigatewayv2_api" "main" {
 }
 
 resource "aws_apigatewayv2_integration" "default" {
-  api_id                 = aws_apigatewayv2_api.default.id
+  api_id                 = aws_apigatewayv2_api.main.id
   integration_type       = "AWS_PROXY"
   connection_type        = "INTERNET"
   integration_method     = "POST"
