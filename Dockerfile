@@ -1,7 +1,7 @@
 FROM public.ecr.aws/lambda/nodejs:20
 
 COPY ./package.json ${LAMBDA_TASK_ROOT}/
-COPY ./package.lock ${LAMBDA_TASK_ROOT}/
+COPY ./package-lock.json ${LAMBDA_TASK_ROOT}/
 
 RUN cd ${LAMBDA_TASK_ROOT}/ && npm install --production --frozen-lockfile --silent --non-interactive
   
