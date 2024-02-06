@@ -43,7 +43,7 @@ jobs:
 
       - name: Terraform init
         id: init
-        run: terraform init
+        run: terraform init --upgrade
         working-directory: ${{ env.working-directory }}
   
       - name: Terraform format
