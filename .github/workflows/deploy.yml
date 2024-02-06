@@ -12,6 +12,10 @@ env:
   ROLE_ARN: arn:aws:iam::517171444774:role/github-deploy-stone-api
   TERRAFORM_DESTROY: false
 
+permissions:
+  id-token: write
+  contents: read
+  
 jobs:
   terraform:
     name: "Terraform Infrastructure Change Management"
