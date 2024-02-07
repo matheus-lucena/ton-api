@@ -16,4 +16,3 @@ export const UserRegisterRequestRule = {
   email: 'required|string|min:3',
   password: 'required|string|min:8',
 };
-

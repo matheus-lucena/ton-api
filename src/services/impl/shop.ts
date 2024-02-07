@@ -30,16 +30,18 @@ class ShopServiceImpl implements ShopService {
   async buy(shop: ShopRequest): Promise<ShopRequest | undefined> {
     const productServiceImpl = new ProductServiceImpl();
     const dbProducts = await productServiceImpl.listProduct();
-    
-    const total = shop.products.map(prod => {
-      const dbPdt = dbProducts.find((dbPdt) => dbPdt.sn == prod.sn)
-      if(dbPdt && dbPdt.active){
-        prod.value = dbPdt.value
-        return dbPdt.value * prod.count
-      }
-      prod.count = 0;
-      return 0;
-    }).reduce((_total, preco) => _total + preco);
+
+    const total = shop.products
+      .map(prod => {
+        const dbPdt = dbProducts.find(dbPdt => dbPdt.sn == prod.sn);
+        if (dbPdt && dbPdt.active) {
+          prod.value = dbPdt.value;
+          return dbPdt.value * prod.count;
+        }
+        prod.count = 0;
+        return 0;
+      })
+      .reduce((_total, preco) => _total + preco);
 
     const id = randomUUID();
     const command = new PutCommand({

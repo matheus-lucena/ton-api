@@ -26,21 +26,20 @@ class CognitoServiceImpl implements AuthService {
       UserPoolId: COGNITO_USER_POOL_ID,
       Username: email,
       DesiredDeliveryMediums: ['EMAIL'],
-      UserAttributes: [ // AttributeListType
+      UserAttributes: [
+        // AttributeListType
         {
-          Name: "name", // required
+          Name: 'name', // required
           Value: name,
         },
         {
-          Name: "family_name", // required
+          Name: 'family_name', // required
           Value: family_name,
         },
       ],
     };
     const command = new AdminCreateUserCommand(params);
-    return await this.client
-      .send(command)
-      .then(value => value);
+    return await this.client.send(command).then(value => value);
   };
 
   setUserPassword = async (username: string, password: string) => {
@@ -51,9 +50,7 @@ class CognitoServiceImpl implements AuthService {
       Permanent: true,
     };
     const command = new AdminSetUserPasswordCommand(params);
-    return await this.client
-      .send(command)
-      .then(value => value);
+    return await this.client.send(command).then(value => value);
   };
 
   getUser = async (username: string) => {
@@ -86,7 +83,7 @@ class CognitoServiceImpl implements AuthService {
         .send(command)
         .then(value => value)
         .catch(() => undefined)
-      )?.AuthenticationResult;
+    )?.AuthenticationResult;
   };
 }
 

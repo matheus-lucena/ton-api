@@ -47,7 +47,7 @@ describe('/auth', function () {
       })
       .expect(200);
   });
-  
+
   it('invalidPasswordRegisterUser', async () => {
     await appAgent
       .post('/auth')
@@ -81,12 +81,11 @@ describe('/auth', function () {
       .set({
         Accept: 'application/json',
       })
-      .send({ email: 'teste', password: 'asdasdasdasd', name: 'testeee', family_name: 'testee', })
+      .send({ email: 'teste', password: 'asdasdasdasd', name: 'testeee', family_name: 'testee' })
       .expect(STATUS_BAD_REQUEST)
       .expect(res => {
         expect(res.body.message).toEqual(AUTH_USER_PASSWORD_NOT_MEET_REQUIREMENTS);
       })
       .end(done);
   });
-
 });
