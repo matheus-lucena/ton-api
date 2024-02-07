@@ -56,6 +56,6 @@ data "aws_iam_policy_document" "dynamodb" {
       "dynamodb:UpdateItem",
     ]
 
-    resources = tolist(aws_dynamodb_table.*.arn)
+    resources = aws_dynamodb_table[*].arn
   }
 }
