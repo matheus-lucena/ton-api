@@ -19,5 +19,8 @@ resource "aws_lambda_function" "main" {
 
 data "aws_ecr_image" "lambda" {
   repository_name = var.name
-  image_tag = local.docker_image_tag
+  image_tag       = local.docker_image_tag
+  depends_on = [
+    aws_ecr_repository.lambda
+  ]
 }
