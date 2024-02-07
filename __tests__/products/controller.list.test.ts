@@ -2,7 +2,7 @@ import { describe, it, expect } from '@jest/globals';
 import { LIST_MOCK_PRODUCT, MOCK_PRODUCT } from '../mocks/product';
 
 import { agent } from 'supertest';
-import { app } from '../../src';
+import { app } from '../../src/app';
 import { Request, NextFunction } from 'express';
 
 const appAgent = agent(app);

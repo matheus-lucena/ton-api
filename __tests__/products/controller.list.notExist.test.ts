@@ -1,7 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
 
 import { agent } from 'supertest';
-import { app } from '../../src';
+import { app } from '../../src/app';
 import { Request, NextFunction } from 'express';
 
 const appAgent = agent(app);

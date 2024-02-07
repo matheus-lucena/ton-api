@@ -2,7 +2,7 @@ import { describe, it } from '@jest/globals';
 import { MOCK_PRODUCT } from '../mocks/product';
 
 import { agent } from 'supertest';
-import { app } from '../../src';
+import { app } from '../../src/app';
 import { Request, NextFunction } from 'express';
 import { Product } from '../../src/types/model/product';
 import { STATUS_CONFLICT } from '../../src/config/http';

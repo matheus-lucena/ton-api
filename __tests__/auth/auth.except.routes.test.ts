@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { agent } from 'supertest';
-import { app } from '../../src';
+import { app } from '../../src/app';
 import { Request, NextFunction } from 'express';
 import { STATUS_INTERNAL_SERVER_ERROR } from '../../src/config/http';
 

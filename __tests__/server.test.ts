@@ -1,7 +1,7 @@
 import { describe, it } from '@jest/globals';
 import { agent } from 'supertest';
 import listenApp from '../src/local';
-import { healthcheck } from '../src';
+import { healthcheck } from '../src/app';
 
 import httpMocks from 'node-mocks-http';
 

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { agent } from 'supertest';
-import { app } from '../../src';
+import { app } from '../../src/app';
 import { Request, NextFunction } from 'express';
 import { AuthenticationResult, CreateUser, GetUser, UserPassword } from '../mocks/auth';
 import { AUTH_USER_NOT_EXIST } from '../../src/config/messages';

@@ -1,3 +1,3 @@
 const serverlessExpress = require('@codegenie/serverless-express');
-const app = require('./index');
+const app = require('./app');
 exports.handler = serverlessExpress({ app });
