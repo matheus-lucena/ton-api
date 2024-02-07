@@ -18,3 +18,9 @@ resource "aws_apigatewayv2_route" "main" {
   authorization_type = "NONE"
   target             = "integrations/${aws_apigatewayv2_integration.default.id}"
 }
+
+resource "aws_apigatewayv2_stage" "main" {
+  api_id = aws_apigatewayv2_api.main.id
+  name   = "$default"
+  auto_deploy = true
+}
