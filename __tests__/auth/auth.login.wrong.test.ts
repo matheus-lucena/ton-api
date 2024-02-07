@@ -37,7 +37,7 @@ describe('/auth', function () {
       .set({
         Accept: 'application/json',
       })
-      .send({ email: 'teste', password: 'teste' })
+      .send({ email: 'teste', password: 'teste@sadJD2', name: 'testeee', family_name: 'testee' })
       .expect(STATUS_UNAUTHORIZED)
       .expect(res => {
         expect(res.body.message).toEqual(AUTH_USER_WRONT_LOGIN);

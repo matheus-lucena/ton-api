@@ -25,7 +25,7 @@ jest.mock('../../src/middleware/auth', () => {
 
 jest.mock('../../src/services/impl/cognito', () => {
   return jest.fn().mockImplementation(() => ({
-    createUser: jest.fn((email: string) => CreateUser),
+    createUser: jest.fn((email: string, name: string, family_name: string) => CreateUser),
     login: jest.fn((email: string, password: string) => AuthenticationResult),
     setUserPassword: jest.fn((email: string, password: string) => UserPassword),
     getUser: jest.fn((email: string) => undefined),
@@ -42,6 +42,8 @@ describe('/auth', function () {
       .send({
         email: 'teste2@teste.com',
         password: 'teste@123dD',
+        name: 'testeee',
+        family_name: 'testee',
       })
       .expect(200);
   });
@@ -63,7 +65,7 @@ describe('/auth', function () {
       .set({
         Accept: 'application/json',
       })
-      .send({ email: 'teste', password: 'teste' })
+      .send({ email: 'teste', password: 'tes@SD2dte' })
       .expect(404)
       .expect(res => {
         expect(res.body.message).toEqual(AUTH_USER_NOT_EXIST);

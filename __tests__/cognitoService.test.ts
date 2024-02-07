@@ -39,7 +39,7 @@ describe('CognitoServiceImpl', () => {
 
   it('validCreateUser', async () => {
     userPoolMock.on(AdminCreateUserCommand).resolves(CreateUser);
-    const result = await cognitoServiceImpl.createUser('teste');
+    const result = await cognitoServiceImpl.createUser('teste', 'teste', 'testee');
     expect(result).toStrictEqual(CreateUser);
   });
 

@@ -22,6 +22,14 @@ export const GetUser: AdminGetUserResponse = {
       Name: 'email',
       Value: 'teste@teste.com',
     },
+    {
+      Name: 'name',
+      Value: 'teste',
+    },
+    {
+      Name: 'family_name',
+      Value: 'teste',
+    },
   ],
   Enabled: true,
 };

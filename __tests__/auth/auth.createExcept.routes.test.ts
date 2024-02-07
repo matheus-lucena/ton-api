@@ -22,7 +22,7 @@ jest.mock('../../src/middleware/auth', () => {
 
 jest.mock('../../src/services/impl/cognito', () => {
   return jest.fn().mockImplementation(() => ({
-    createUser: jest.fn((email: string) => {
+    createUser: jest.fn((email: string, name: string, family_name: string) => {
       throw new Error('teste');
     }),
     getUser: jest.fn((email: string) => undefined),
@@ -39,6 +39,8 @@ describe('/auth', function () {
       .send({
         email: 'teste2@teste.com',
         password: 'teste@123dD',
+        name: 'testeee',
+        family_name: 'testee',
       })
       .expect(STATUS_INTERNAL_SERVER_ERROR);
   });

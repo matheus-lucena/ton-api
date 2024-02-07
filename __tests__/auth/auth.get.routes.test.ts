@@ -23,7 +23,7 @@ jest.mock('../../src/middleware/auth', () => {
 
 jest.mock('../../src/services/impl/cognito', () => {
   return jest.fn().mockImplementation(() => ({
-    createUser: jest.fn((email: string) => CreateUser),
+    createUser: jest.fn((email: string, name: string, family_name: string) => CreateUser),
     login: jest.fn((email: string, password: string) => AuthenticationResult),
     setUserPassword: jest.fn((email: string, password: string) => UserPassword),
     getUser: jest.fn((email: string) => GetUser),
@@ -52,7 +52,7 @@ describe('/auth', function () {
       .set({
         Accept: 'application/json',
       })
-      .send({ email: 'teste', password: 'teste' })
+      .send({ email: 'teste', password: 'tes@dsadas2te' })
       .expect(200)
       .expect(res => {
         expect(res.body.access_token).toEqual(AuthenticationResult.AccessToken);
@@ -71,6 +71,8 @@ describe('/auth', function () {
       .send({
         email: 'teste2@teste.com',
         password: 'teste@123dD',
+        name: 'testeee',
+        family_name: 'testee',
       })
       .end(done)
       .expect(209);

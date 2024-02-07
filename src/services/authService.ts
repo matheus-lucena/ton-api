@@ -8,7 +8,7 @@ import {
 } from '@aws-sdk/client-cognito-identity-provider';
 
 interface AuthService {
-  createUser(email: string): Promise<AdminCreateUserCommandOutput>;
+  createUser(email: string, name: string, family_name: string): Promise<AdminCreateUserCommandOutput>;
   setUserPassword(username: string, password: string): Promise<AdminSetUserPasswordCommandOutput>;
   getUser(username: string): Promise<AdminGetUserCommandOutput | undefined>;
   login(username: string, password: string): Promise<AuthenticationResultType | undefined>;

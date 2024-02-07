@@ -21,11 +21,21 @@ class CognitoServiceImpl implements AuthService {
     this.client = new CognitoIdentityProviderClient({ region: AWS_REGION });
   }
 
-  createUser = async (email: string) => {
+  createUser = async (email: string, name: string, family_name: string) => {
     const params: AdminCreateUserCommandInput = {
       UserPoolId: COGNITO_USER_POOL_ID,
       Username: email,
       DesiredDeliveryMediums: ['EMAIL'],
+      UserAttributes: [ // AttributeListType
+        {
+          Name: "name", // required
+          Value: name,
+        },
+        {
+          Name: "family_name", // required
+          Value: family_name,
+        },
+      ],
     };
     const command = new AdminCreateUserCommand(params);
     return await this.client

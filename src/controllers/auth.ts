@@ -10,17 +10,23 @@ import {
   AUTH_USER_CREATED_SUCCESSFULL,
   AUTH_USER_INFO,
   AUTH_USER_NOT_EXIST,
+  GENERIC_INVALID_FIELDS,
 } from '../config/messages';
 import CognitoService from '../services/impl/cognito';
 import { AuthenticationResultType } from '@aws-sdk/client-cognito-identity-provider';
-import { UserRequestBody } from '../types/request/auth';
+import { UserRegisterRequestRule, UserRequestBody, UserLoginRequestRule } from '../types/request/auth';
 import { TypedRequestBody } from '../types/request';
 import { getUserId } from '../utils/user';
+import { make } from 'simple-body-validator';
 
 const PASSWORD_REGEX = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
 
 export async function register(req: TypedRequestBody<UserRequestBody>, res: Response) {
-  const { email, password } = req.body;
+  const validator = make(req.body, UserRegisterRequestRule);
+  if (!validator.validate()) {
+    return res.status(STATUS_BAD_REQUEST).json(new HttpResult(GENERIC_INVALID_FIELDS, undefined, validator.errors().all()));
+  }
+  const { email, password, name, family_name } = req.body;
   const cognitoService = new CognitoService();
   const user = await cognitoService.getUser(email);
   if (user) {
@@ -33,7 +39,7 @@ export async function register(req: TypedRequestBody<UserRequestBody>, res: Resp
   let create_result;
 
   try {
-    create_result = await cognitoService.createUser(email);
+    create_result = await cognitoService.createUser(email, name, family_name);
   } catch (e) {
     return res.status(STATUS_INTERNAL_SERVER_ERROR).json(new HttpResult(AUTH_USER_FAILURE_CREATE, {}));
   }
@@ -45,6 +51,10 @@ export async function register(req: TypedRequestBody<UserRequestBody>, res: Resp
 }
 
 export async function login(req: TypedRequestBody<UserRequestBody>, res: Response) {
+  const validator = make(req.body, UserLoginRequestRule);
+  if (!validator.validate()) {
+    return res.status(STATUS_BAD_REQUEST).json(new HttpResult(GENERIC_INVALID_FIELDS, undefined, validator.errors().all()));
+  }
   const { email, password } = req.body;
   const cognitoService = new CognitoService();
   const user = await cognitoService.getUser(req.body.email);
