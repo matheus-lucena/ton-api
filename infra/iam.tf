@@ -36,7 +36,7 @@ resource "aws_iam_policy_attachment" "dynamodb_access" {
 resource "aws_iam_policy" "dynamodb" {
   name        = "${var.name}-dynamo"
   
-  policy = data.aws_iam_policy_document.data.dynamodb.json
+  policy = data.aws_iam_policy_document.dynamodb.json
 }
 
 data "aws_iam_policy_document" "dynamodb" {
@@ -56,6 +56,6 @@ data "aws_iam_policy_document" "dynamodb" {
       "dynamodb:UpdateItem",
     ]
 
-    resources = aws_dynamodb_table.*.arn
+    resources = tolist(aws_dynamodb_table.*.arn)
   }
 }
