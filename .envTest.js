@@ -1,0 +1,9 @@
+process.env.APP_PORT=5005;
+process.env.COGNITO_CLIENT_ID="client_id";
+process.env.COGNITO_USER_POOL_ID="user_pool";
+process.env.COGNITO_SECRET="secret";
+process.env.AWS_DEFAULT_REGION="region";
+process.env.DYNAMODB_PRODUCTS_TABLE="pdts";
+process.env.DYNAMODB_PRODUCTS_ACTIVE_GSI="active-index";
+process.env.DYNAMODB_SHOP_TABLE="store-pdts";
+process.env.DYNAMODB_SHOP_TABLE_CLIENT_GSI="client_id-index";

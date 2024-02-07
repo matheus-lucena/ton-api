@@ -1,8 +1,5 @@
-require('dotenv').config({
-  path: '.env.test'
-});
-
 module.exports = {
+  setupFiles: ['./.envTest.js'],
   preset: 'ts-jest',
   testEnvironment: 'node',
   transform: {
