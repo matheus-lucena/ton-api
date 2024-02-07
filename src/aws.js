@@ -1,4 +1,3 @@
-// lambda.js
-const serverlessExpress = require('@codegenie/serverless-express')
-import { app } from '.';
+const serverlessExpress = require('@codegenie/serverless-express');
+const app = require('.');
 exports.handler = serverlessExpress({ app });

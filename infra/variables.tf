@@ -9,3 +9,7 @@ variable "products_table_name" {
 variable "name" {
   type = string
 }
+
+variable "github_run_number" {
+  type = string
+}
