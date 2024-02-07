@@ -11,7 +11,7 @@ env:
   ROLE_SESSION_NAME: deploy-api
   ROLE_ARN: arn:aws:iam::517171444774:role/github-deploy-stone-api
   TERRAFORM_DESTROY: false
-  TF_VAR_github_run_number: ${GITHUB_RUN_NUMBER}
+  TF_VAR_github_run_number: ${{ github.run_number }}
 
 permissions:
   id-token: write
