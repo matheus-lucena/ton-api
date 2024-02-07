@@ -49,6 +49,7 @@ class ShopServiceImpl implements ShopService {
         client_id: this.client_id,
         id,
         total: total,
+        date: Date.now(),
       },
     });
     await this.client.send(command);
