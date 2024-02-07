@@ -3,7 +3,7 @@ import { agent } from 'supertest';
 import { app } from '../../src/app';
 import { Request, NextFunction } from 'express';
 import { AuthenticationResult, CreateUser, GetUser, UserPassword } from '../mocks/auth';
-import { AUTH_USER_NOT_EXIST } from '../../src/config/messages';
+import { AUTH_USER_NOT_EXIST, AUTH_USER_PASSWORD_NOT_MEET_REQUIREMENTS } from '../../src/config/messages';
 import { STATUS_BAD_REQUEST } from '../../src/config/http';
 
 const appAgent = agent(app);
@@ -47,6 +47,7 @@ describe('/auth', function () {
       })
       .expect(200);
   });
+  
   it('invalidPasswordRegisterUser', async () => {
     await appAgent
       .post('/auth')
@@ -59,6 +60,7 @@ describe('/auth', function () {
       })
       .expect(STATUS_BAD_REQUEST);
   });
+
   it('loginUser', done => {
     appAgent
       .post('/auth/login')
@@ -72,4 +74,19 @@ describe('/auth', function () {
       })
       .end(done);
   });
+
+  it('registerUserNotMeetPasswordRequirements', done => {
+    appAgent
+      .post('/auth')
+      .set({
+        Accept: 'application/json',
+      })
+      .send({ email: 'teste', password: 'asdasdasdasd', name: 'testeee', family_name: 'testee', })
+      .expect(STATUS_BAD_REQUEST)
+      .expect(res => {
+        expect(res.body.message).toEqual(AUTH_USER_PASSWORD_NOT_MEET_REQUIREMENTS);
+      })
+      .end(done);
+  });
+
 });

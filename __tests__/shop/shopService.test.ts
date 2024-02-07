@@ -5,6 +5,7 @@ import { DynamoDBDocumentClient, GetCommand, QueryCommand } from '@aws-sdk/lib-d
 import ShopServiceImpl from '../../src/services/impl/shop';
 import { ShopRequest } from '../../src/types/request/shop';
 import { MOCK_INPUT_SHOP, MOCK_RESPONSE_SHOP } from '../mocks/shop';
+import { LIST_MOCK_PRODUCT } from '../mocks/product';
 
 const ddbMock = mockClient(DynamoDBDocumentClient);
 const shopServiceImpl = new ShopServiceImpl('testeUser');
@@ -35,6 +36,9 @@ describe('shopServiceImpl', () => {
   it('validCreateShop', async () => {
     ddbMock.on(GetCommand).resolves({
       Item: MOCK_RESPONSE_SHOP,
+    });
+    ddbMock.on(QueryCommand).resolves({
+      Items: LIST_MOCK_PRODUCT,
     });
     const dbShop: ShopRequest | undefined = await shopServiceImpl.buy(MOCK_INPUT_SHOP);
     expect(dbShop).toEqual(MOCK_RESPONSE_SHOP);

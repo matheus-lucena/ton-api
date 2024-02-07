@@ -32,6 +32,7 @@ export async function register(req: TypedRequestBody<UserRequestBody>, res: Resp
   if (user) {
     return res.status(STATUS_CONFLICT).json(new HttpResult(AUTH_USER_EXIST, {}));
   }
+
   if (!PASSWORD_REGEX.test(password)) {
     return res.status(STATUS_BAD_REQUEST).json(new HttpResult(AUTH_USER_PASSWORD_NOT_MEET_REQUIREMENTS, {}));
   }

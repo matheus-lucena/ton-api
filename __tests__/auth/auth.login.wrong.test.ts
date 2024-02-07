@@ -2,9 +2,9 @@
 import { agent } from 'supertest';
 import { app } from '../../src/app';
 import { Request, NextFunction } from 'express';
-import { AuthenticationResult, CreateUser, GetUser, UserPassword } from '../mocks/auth';
-import { AUTH_USER_NOT_EXIST, AUTH_USER_TOKEN_UNAUTHORIZED, AUTH_USER_WRONT_LOGIN } from '../../src/config/messages';
-import { STATUS_BAD_REQUEST, STATUS_UNAUTHORIZED } from '../../src/config/http';
+import { GetUser } from '../mocks/auth';
+import { AUTH_USER_TOKEN_UNAUTHORIZED, AUTH_USER_WRONT_LOGIN } from '../../src/config/messages';
+import { STATUS_UNAUTHORIZED } from '../../src/config/http';
 import { HttpResult } from '../../src/utils/http';
 
 const appAgent = agent(app);
@@ -37,7 +37,7 @@ describe('/auth', function () {
       .set({
         Accept: 'application/json',
       })
-      .send({ email: 'teste', password: 'teste@sadJD2', name: 'testeee', family_name: 'testee' })
+      .send({ email: 'teste', password: 'teste@sadJD2' })
       .expect(STATUS_UNAUTHORIZED)
       .expect(res => {
         expect(res.body.message).toEqual(AUTH_USER_WRONT_LOGIN);

@@ -18,6 +18,5 @@ export const ShopRequestRule = {
   'products.*.name': 'required|string',
   'products.*.sn': 'required|string|min:10',
   'products.*.image_url': 'required|string',
-  'products.*.value': 'required|strict|numeric',
   'products.*.count': 'required|strict|numeric',
 };

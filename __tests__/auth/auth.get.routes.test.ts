@@ -3,6 +3,8 @@ import { agent } from 'supertest';
 import { app } from '../../src/app';
 import { Request, NextFunction } from 'express';
 import { AuthenticationResult, CreateUser, GetUser, UserPassword } from '../mocks/auth';
+import { AUTH_USER_PASSWORD_NOT_MEET_REQUIREMENTS, GENERIC_INVALID_FIELDS } from '../../src/config/messages';
+import { STATUS_BAD_REQUEST } from '../../src/config/http';
 
 const appAgent = agent(app);
 
@@ -58,6 +60,20 @@ describe('/auth', function () {
         expect(res.body.access_token).toEqual(AuthenticationResult.AccessToken);
         expect(res.body.refresh_token).toEqual(AuthenticationResult.RefreshToken);
         expect(res.body.expires_in).toEqual(AuthenticationResult.ExpiresIn);
+      })
+      .end(done);
+  });
+
+  it('loginUserInvalidBody', done => {
+    appAgent
+      .post('/auth/login')
+      .set({
+        Accept: 'application/json',
+      })
+      .send({ email: 'teste', password: 'asd' })
+      .expect(STATUS_BAD_REQUEST)
+      .expect(res => {
+        expect(res.body.message).toEqual(GENERIC_INVALID_FIELDS);
       })
       .end(done);
   });
