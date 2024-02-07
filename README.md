@@ -2,6 +2,7 @@
 
 Esse serviço foi desenvolvido com o objetivo de integrar ao frontend.
 Endpoint base: https://bnr4op10uh.execute-api.us-east-1.amazonaws.com
+Utilizado o node versão 20.0
 
 ## Descrição
 Essa aplicação possui as seguintes funcionalidades.
@@ -52,6 +53,11 @@ Essa aplicação possui as seguintes funcionalidades.
 4. Executar o servidor `npm run start`
 5. Collection postman dos endpoints https://github.com/matheus-lucena/stone-api/blob/master/postman.json.
 
+
+### Executando testes
+
+1. Para executar os testes `npm run test`
+2. Para verificar o voverage `npm run test-coverage`
 
 ### Realizando deploy
 
