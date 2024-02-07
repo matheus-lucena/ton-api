@@ -1,7 +1,7 @@
 FROM public.ecr.aws/lambda/nodejs:20 as builder
 WORKDIR /root
 COPY ["package.json", "package-lock.json", "."]
-RUN npm install --omit=dev --non-interactive
+RUN npm install --non-interactive
 COPY . .
 RUN ["npx", "tsc"]
 
