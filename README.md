@@ -1,6 +1,7 @@
 # Aplicação backend
 
 Esse serviço foi desenvolvido com o objetivo de integrar ao frontend.
+Endpoint base: https://bnr4op10uh.execute-api.us-east-1.amazonaws.com
 
 ## Descrição
 Essa aplicação possui as seguintes funcionalidades.
@@ -27,7 +28,9 @@ Essa aplicação possui as seguintes funcionalidades.
 
 - Node.js
 - Express.js
+- Docker
 - AWS Cognito
+- AWS ECR
 - AWS dynamodb
 - AWS api gateway
 - AWS lambda
@@ -52,7 +55,7 @@ Essa aplicação possui as seguintes funcionalidades.
 
 ### Realizando deploy
 
-Para realizar o deploy foi utilizado o github actions, onde todo procedimento é de forma automatica e sem interferencia humana. Um ponto importante que a etapa de testes também está definida nos actions, garantindo assim uma manutenção da aplicação.
+Para realizar o deploy foi utilizado o github actions, onde todo procedimento é de forma automatica e sem interferencia humana. Um ponto importante que a etapa de testes também está definida nos actions, garantindo assim uma manutenção da aplicação. A aplicação é executada em uma imagem docker dentro da lambda, caso em algum momento seja necessário é possível executar em outros serviços como ECS ou mesmo outra cloud.
 
 #### Configuração do github actions
 
@@ -83,3 +86,6 @@ Essa tabela armazena o histórico de compras dos clientes, com isso pode vir a c
 - Implementação de um cache na camada de autenticação, evitando chamadas desnecessárias ao serviço cognito da AWS, também criando uma camada de resiliência no serviço.
 - Criar grupos o aws cognito, para segregar usuários administrativos e clientes da companhia, pois atualmente qualquer usuário autenticado conseguirá criar produtos, sendo uma alternativa temporaria desabilitar o endpoint de criação após todos registros serem criados.
 - Implementar um backend s3 para armazenamento das fotos, pois atualmente está sendo armazenado uma URL, oq pode ocausionar problemas por depêndencias externas.
+
+
+![Desenho AWS](/images/aws.png)
