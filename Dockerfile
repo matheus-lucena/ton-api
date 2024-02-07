@@ -1,10 +1,10 @@
-FROM public.ecr.aws/lambda/nodejs:20
-
-COPY ./package.json ${LAMBDA_TASK_ROOT}/
-COPY ./package-lock.json ${LAMBDA_TASK_ROOT}/
-COPY ./src/ ${LAMBDA_TASK_ROOT}
-WORKDIR ${LAMBDA_TASK_ROOT}
+FROM public.ecr.aws/lambda/nodejs:20 as builder
+WORKDIR /root/
+COPY ["package.json", "package-lock.json", "./"]
 RUN npm install --omit=dev --non-interactive
+COPY ./src/ ${LAMBDA_TASK_ROOT}
+RUN ["npm", "run", "build", "outdir", "./dist"]
 
-# Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
+FROM public.ecr.aws/lambda/nodejs:20
+COPY --from=builder /root/dist ${LAMBDA_TASK_ROOT}
 CMD [ "aws.handler" ]
