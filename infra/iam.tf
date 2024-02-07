@@ -59,6 +59,8 @@ data "aws_iam_policy_document" "dynamodb" {
     resources = [
       aws_dynamodb_table.shop.arn,
       aws_dynamodb_table.products.arn,
+      "${aws_dynamodb_table.shop.arn}/index/*",
+      "${aws_dynamodb_table.products.arn}/index/*",
     ]
   }
 }
