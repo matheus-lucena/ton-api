@@ -7,7 +7,7 @@ resource "aws_apigatewayv2_integration" "default" {
   api_id               = aws_apigatewayv2_api.main.id
   integration_type     = "AWS_PROXY"
   connection_type      = "INTERNET"
-  integration_method   = "ANY"
+  integration_method   = "POST"
   integration_uri      = aws_lambda_function.main.invoke_arn
   timeout_milliseconds = 30000
 }
